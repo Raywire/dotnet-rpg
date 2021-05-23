@@ -14,9 +14,9 @@ namespace dotnet_rpg.Services.CharacterService
             new Character(),
             new Character { Id = 1, Name = "Sam" }
         };
-    private readonly IMapper _mapper;
+        private readonly IMapper _mapper;
 
-    public CharacterService(IMapper mapper)
+        public CharacterService(IMapper mapper)
         {
             _mapper = mapper;
         }
@@ -27,6 +27,25 @@ namespace dotnet_rpg.Services.CharacterService
             character.Id = characters.Max(c => c.Id) + 1;
             characters.Add(character);
             serviceResponse.Data = (characters.Select(c => _mapper.Map<GetCharacterDto>(c))).ToList();
+            return serviceResponse;
+        }
+
+        public async Task<ServiceResponse<List<GetCharacterDto>>> DeleteCharacter(int id)
+        {
+            ServiceResponse<List<GetCharacterDto>> serviceResponse = new ServiceResponse<List<GetCharacterDto>>();
+            try
+            {
+                Character character = characters.First(c => c.Id == id);
+                characters.Remove(character);
+
+                serviceResponse.Data = (characters.Select(c => _mapper.Map<GetCharacterDto>(c))).ToList();
+            }
+            catch (Exception ex)
+            {
+                serviceResponse.Success = false;
+                serviceResponse.Message = ex.Message;
+            }
+
             return serviceResponse;
         }
 
