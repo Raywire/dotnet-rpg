@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using dotnet_rpg.Data;
 using dotnet_rpg.Services.CharacterService;
+using dotnet_rpg.Services.CharacterSkillService;
 using dotnet_rpg.Services.WeaponService;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -39,6 +40,7 @@ namespace dotnet_rpg
             services.AddAutoMapper(typeof(Startup));
             services.AddScoped<ICharacterService, CharacterService>();
             services.AddScoped<IWeaponService, WeaponService>();
+            services.AddScoped<ICharacterSkillService, CharacterSkillService>();
             services.AddScoped<IAuthRepository, AuthRepository>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddSwaggerGen(c =>
